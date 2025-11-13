@@ -30,6 +30,16 @@ export default function Navigation() {
           >
             Calculation Result Idea
           </Link>
+          <Link
+            href="/admin/quote-config"
+            className={`py-4 px-2 border-b-2 font-medium text-sm transition-colors ${
+              pathname === '/admin/quote-config'
+                ? 'border-blue-600 text-blue-600'
+                : 'border-transparent text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            Quote Config
+          </Link>
         </div>
       </div>
     </nav>
