@@ -142,9 +142,9 @@ export default function Home() {
           {/* Left Side - Selection Steps */}
           <div className="lg:col-span-2 space-y-6">
             {/* Step 1: Promotion Selection */}
-            <div className="bg-white rounded-xl p-6 border-2 border-gray-200">
-              <h2 className="text-xl font-semibold mb-4 flex items-center text-gray-900">
-                <span className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center mr-3 text-sm">1</span>
+            <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+              <h2 className="text-xl font-semibold mb-6 flex items-center text-gray-900">
+                <span className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 text-white rounded-full flex items-center justify-center mr-3 text-sm shadow-lg shadow-red-200">1</span>
                 Select Promotion
               </h2>
               <div className="flex gap-4">
@@ -159,10 +159,10 @@ export default function Home() {
                       setUnitPrice(null);
                       setShowResults(false);
                     }}
-                    className={`flex-1 py-6 px-4 rounded-xl font-medium text-lg transition-all border-2 ${
+                    className={`flex-1 py-8 px-6 rounded-2xl font-semibold text-lg transition-all duration-200 border-2 ${
                       promotion === promo
-                        ? 'border-blue-600 bg-blue-50 text-blue-700 shadow-md transform scale-105'
-                        : 'border-gray-300 text-gray-700 hover:border-blue-400 hover:bg-blue-50/50'
+                        ? 'border-red-500 bg-gradient-to-br from-red-50 to-white text-red-700 shadow-lg shadow-red-100 transform scale-[1.02]'
+                        : 'border-gray-200 text-gray-700 hover:border-red-300 hover:shadow-md hover:bg-gradient-to-br hover:from-red-50/30 hover:to-white'
                     }`}
                   >
                     {promo}
@@ -173,9 +173,9 @@ export default function Home() {
 
             {/* Step 2: Product Option Selection */}
             {promotion && (
-              <div className="bg-white rounded-xl p-6 border-2 border-gray-200">
-                <h2 className="text-xl font-semibold mb-4 flex items-center text-gray-900">
-                  <span className="w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center mr-3 text-sm">2</span>
+              <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-md transition-shadow animate-in fade-in slide-in-from-top-4 duration-300">
+                <h2 className="text-xl font-semibold mb-6 flex items-center text-gray-900">
+                  <span className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 text-white rounded-full flex items-center justify-center mr-3 text-sm shadow-lg shadow-red-200">2</span>
                   Select Product Option
                 </h2>
                 <div className="flex gap-4">
@@ -189,10 +189,10 @@ export default function Home() {
                         setUnitPrice(null);
                         setShowResults(false);
                       }}
-                      className={`flex-1 py-6 px-4 rounded-xl font-medium text-lg transition-all border-2 ${
+                      className={`flex-1 py-8 px-6 rounded-2xl font-semibold text-lg transition-all duration-200 border-2 ${
                         productOption === option
-                          ? 'border-green-600 bg-green-50 text-green-700 shadow-md transform scale-105'
-                          : 'border-gray-300 text-gray-700 hover:border-green-400 hover:bg-green-50/50'
+                          ? 'border-red-500 bg-gradient-to-br from-red-50 to-white text-red-700 shadow-lg shadow-red-100 transform scale-[1.02]'
+                          : 'border-gray-200 text-gray-700 hover:border-red-300 hover:shadow-md hover:bg-gradient-to-br hover:from-red-50/30 hover:to-white'
                       }`}
                     >
                       {option}
@@ -204,9 +204,9 @@ export default function Home() {
 
             {/* Step 3: Units Selection */}
             {productOption && (
-              <div className="bg-white rounded-xl p-6 border-2 border-gray-200">
-                <h2 className="text-xl font-semibold mb-4 flex items-center text-gray-900">
-                  <span className="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center mr-3 text-sm">3</span>
+              <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-md transition-shadow animate-in fade-in slide-in-from-top-4 duration-300">
+                <h2 className="text-xl font-semibold mb-6 flex items-center text-gray-900">
+                  <span className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 text-white rounded-full flex items-center justify-center mr-3 text-sm shadow-lg shadow-red-200">3</span>
                   Select Units
                 </h2>
                 <div className="flex gap-4 mb-4">
@@ -214,10 +214,10 @@ export default function Home() {
                     <button
                       key={unit}
                       onClick={() => handleUnitsChange(unit)}
-                      className={`flex-1 py-6 px-4 rounded-xl font-medium text-lg transition-all border-2 ${
+                      className={`flex-1 py-8 px-6 rounded-2xl font-semibold text-lg transition-all duration-200 border-2 ${
                         units === unit
-                          ? 'border-purple-600 bg-purple-50 text-purple-700 shadow-md transform scale-105'
-                          : 'border-gray-300 text-gray-700 hover:border-purple-400 hover:bg-purple-50/50'
+                          ? 'border-red-500 bg-gradient-to-br from-red-50 to-white text-red-700 shadow-lg shadow-red-100 transform scale-[1.02]'
+                          : 'border-gray-200 text-gray-700 hover:border-red-300 hover:shadow-md hover:bg-gradient-to-br hover:from-red-50/30 hover:to-white'
                       }`}
                     >
                       {unit === 'custom' ? 'Custom' : unit}
@@ -226,8 +226,8 @@ export default function Home() {
                 </div>
 
                 {units === 'custom' && (
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <div className="animate-in fade-in slide-in-from-top-2 duration-200">
+                    <label className="block text-sm font-semibold text-gray-700 mb-3">
                       Enter Custom Quantity
                     </label>
                     <input
@@ -235,16 +235,16 @@ export default function Home() {
                       value={customUnits}
                       onChange={(e) => handleCustomUnitsChange(e.target.value)}
                       placeholder="Enter quantity..."
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-600 focus:outline-none text-lg"
+                      className="w-full px-5 py-4 border-2 border-gray-200 rounded-xl focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-100 text-lg transition-all"
                       min="1"
                     />
                   </div>
                 )}
 
                 {unitPrice !== null && (
-                  <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                    <p className="text-sm text-gray-600">Unit Price</p>
-                    <p className="text-2xl font-bold text-gray-900">R {unitPrice.toFixed(2)}</p>
+                  <div className="mt-6 p-5 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 shadow-sm">
+                    <p className="text-sm font-medium text-gray-600 mb-1">Unit Price</p>
+                    <p className="text-3xl font-bold text-gray-900">R {unitPrice.toFixed(2)}</p>
                   </div>
                 )}
               </div>
