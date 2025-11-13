@@ -105,12 +105,6 @@ export default function Home() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <button className="flex items-center text-gray-700 hover:text-gray-900 mb-4">
-            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Back to Selection
-          </button>
           <h1 className="text-4xl font-bold text-center mb-2 text-gray-900">Standard Products</h1>
           <p className="text-center text-gray-600">
             Browse our standard product offerings and select the perfect option for your needs
@@ -138,16 +132,16 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Left Side - Selection Steps */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="space-y-5">
             {/* Step 1: Promotion Selection */}
-            <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-              <h2 className="text-xl font-semibold mb-6 flex items-center text-gray-900">
-                <span className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 text-white rounded-full flex items-center justify-center mr-3 text-sm shadow-lg shadow-red-200">1</span>
+            <div>
+              <h2 className="text-base font-semibold mb-3 flex items-center text-gray-900">
+                <span className="w-7 h-7 bg-gradient-to-br from-red-500 to-red-600 text-white rounded-full flex items-center justify-center mr-2 text-xs shadow-lg shadow-red-200">1</span>
                 Select Promotion
               </h2>
-              <div className="flex gap-4">
+              <div className="flex gap-3">
                 {(['7-Page Calendar', '13-Page Calendar'] as Promotion[]).map((promo) => (
                   <button
                     key={promo}
@@ -159,7 +153,7 @@ export default function Home() {
                       setUnitPrice(null);
                       setShowResults(false);
                     }}
-                    className={`flex-1 py-8 px-6 rounded-2xl font-semibold text-lg transition-all duration-200 border-2 ${
+                    className={`flex-1 py-4 px-4 rounded-xl font-semibold text-sm transition-all duration-200 border ${
                       promotion === promo
                         ? 'border-red-500 bg-gradient-to-br from-red-50 to-white text-red-700 shadow-lg shadow-red-100 transform scale-[1.02]'
                         : 'border-gray-200 text-gray-700 hover:border-red-300 hover:shadow-md hover:bg-gradient-to-br hover:from-red-50/30 hover:to-white'
@@ -173,12 +167,12 @@ export default function Home() {
 
             {/* Step 2: Product Option Selection */}
             {promotion && (
-              <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-md transition-shadow animate-in fade-in slide-in-from-top-4 duration-300">
-                <h2 className="text-xl font-semibold mb-6 flex items-center text-gray-900">
-                  <span className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 text-white rounded-full flex items-center justify-center mr-3 text-sm shadow-lg shadow-red-200">2</span>
+              <div className="animate-in fade-in slide-in-from-top-4 duration-300">
+                <h2 className="text-base font-semibold mb-3 flex items-center text-gray-900">
+                  <span className="w-7 h-7 bg-gradient-to-br from-red-500 to-red-600 text-white rounded-full flex items-center justify-center mr-2 text-xs shadow-lg shadow-red-200">2</span>
                   Select Product Option
                 </h2>
-                <div className="flex gap-4">
+                <div className="flex gap-3">
                   {(['A1', 'A2', 'A3'] as ProductOption[]).map((option) => (
                     <button
                       key={option}
@@ -189,7 +183,7 @@ export default function Home() {
                         setUnitPrice(null);
                         setShowResults(false);
                       }}
-                      className={`flex-1 py-8 px-6 rounded-2xl font-semibold text-lg transition-all duration-200 border-2 ${
+                      className={`flex-1 py-4 px-4 rounded-xl font-semibold text-sm transition-all duration-200 border ${
                         productOption === option
                           ? 'border-red-500 bg-gradient-to-br from-red-50 to-white text-red-700 shadow-lg shadow-red-100 transform scale-[1.02]'
                           : 'border-gray-200 text-gray-700 hover:border-red-300 hover:shadow-md hover:bg-gradient-to-br hover:from-red-50/30 hover:to-white'
@@ -204,17 +198,17 @@ export default function Home() {
 
             {/* Step 3: Units Selection */}
             {productOption && (
-              <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-md transition-shadow animate-in fade-in slide-in-from-top-4 duration-300">
-                <h2 className="text-xl font-semibold mb-6 flex items-center text-gray-900">
-                  <span className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 text-white rounded-full flex items-center justify-center mr-3 text-sm shadow-lg shadow-red-200">3</span>
+              <div className="animate-in fade-in slide-in-from-top-4 duration-300">
+                <h2 className="text-base font-semibold mb-3 flex items-center text-gray-900">
+                  <span className="w-7 h-7 bg-gradient-to-br from-red-500 to-red-600 text-white rounded-full flex items-center justify-center mr-2 text-xs shadow-lg shadow-red-200">3</span>
                   Select Units
                 </h2>
-                <div className="flex gap-4 mb-4">
+                <div className="flex gap-3 mb-3">
                   {([300, 500, 'custom'] as UnitOption[]).map((unit) => (
                     <button
                       key={unit}
                       onClick={() => handleUnitsChange(unit)}
-                      className={`flex-1 py-8 px-6 rounded-2xl font-semibold text-lg transition-all duration-200 border-2 ${
+                      className={`flex-1 py-4 px-4 rounded-xl font-semibold text-sm transition-all duration-200 border ${
                         units === unit
                           ? 'border-red-500 bg-gradient-to-br from-red-50 to-white text-red-700 shadow-lg shadow-red-100 transform scale-[1.02]'
                           : 'border-gray-200 text-gray-700 hover:border-red-300 hover:shadow-md hover:bg-gradient-to-br hover:from-red-50/30 hover:to-white'
@@ -227,7 +221,7 @@ export default function Home() {
 
                 {units === 'custom' && (
                   <div className="animate-in fade-in slide-in-from-top-2 duration-200">
-                    <label className="block text-sm font-semibold text-gray-700 mb-3">
+                    <label className="block text-xs font-semibold text-gray-700 mb-2">
                       Enter Custom Quantity
                     </label>
                     <input
@@ -235,16 +229,16 @@ export default function Home() {
                       value={customUnits}
                       onChange={(e) => handleCustomUnitsChange(e.target.value)}
                       placeholder="Enter quantity..."
-                      className="w-full px-5 py-4 border-2 border-gray-200 rounded-xl focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-100 text-lg transition-all"
+                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-100 text-sm transition-all"
                       min="1"
                     />
                   </div>
                 )}
 
                 {unitPrice !== null && (
-                  <div className="mt-6 p-5 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 shadow-sm">
-                    <p className="text-sm font-medium text-gray-600 mb-1">Unit Price</p>
-                    <p className="text-3xl font-bold text-gray-900">R {unitPrice.toFixed(2)}</p>
+                  <div className="mt-4 p-4 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 shadow-sm">
+                    <p className="text-xs font-medium text-gray-600 mb-1">Unit Price</p>
+                    <p className="text-2xl font-bold text-gray-900">R {unitPrice.toFixed(2)}</p>
                   </div>
                 )}
               </div>
@@ -266,44 +260,87 @@ export default function Home() {
           {/* Right Side - Results Panel */}
           <div className="lg:col-span-1">
             {showResults && unitPrice !== null && (
-              <div className="bg-gradient-to-br from-gray-800 to-gray-900 text-white rounded-xl p-6 shadow-xl sticky top-8 border-2 border-gray-700">
-                <div className="flex justify-between items-start mb-6">
-                  <h3 className="text-xl font-semibold">Calendars Results</h3>
-                  <button
-                    onClick={handleRestartQuote}
-                    className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-sm font-medium transition-all"
-                  >
-                    Restart Quote
+              <div className="sticky top-8 space-y-4">
+                {/* Summary Card */}
+                <div className="bg-gradient-to-br from-blue-50 via-white to-purple-50 rounded-2xl p-6 border border-blue-100 shadow-lg">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                      <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Quote Ready</span>
+                    </div>
+                    <button
+                      onClick={handleRestartQuote}
+                      className="text-xs text-gray-500 hover:text-red-600 font-medium transition-colors flex items-center gap-1"
+                    >
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      </svg>
+                      Reset
+                    </button>
+                  </div>
+
+                  {/* Product Details */}
+                  <div className="mb-6">
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">
+                      {productOption} {promotion}
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      {category} • Full Colour
+                    </p>
+                  </div>
+
+                  {/* Price Breakdown */}
+                  <div className="space-y-3 mb-6">
+                    <div className="flex justify-between items-baseline py-2 border-b border-gray-100">
+                      <span className="text-sm text-gray-600">Quantity</span>
+                      <span className="text-base font-semibold text-gray-900">{getQuantity()} units</span>
+                    </div>
+                    <div className="flex justify-between items-baseline py-2 border-b border-gray-100">
+                      <span className="text-sm text-gray-600">Unit Price</span>
+                      <span className="text-base font-semibold text-gray-900">R {unitPrice.toFixed(2)}</span>
+                    </div>
+                  </div>
+
+                  {/* Total Price - Highlighted */}
+                  <div className="bg-white rounded-xl p-4 mb-6 border-2 border-green-200 shadow-sm">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="text-xs text-gray-500 uppercase tracking-wide font-medium mb-1">Total Price</p>
+                        <p className="text-3xl font-bold text-green-600">
+                          R {getTotalCost().toFixed(2)}
+                        </p>
+                      </div>
+                      <div className="bg-green-100 rounded-full p-3">
+                        <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Action Button */}
+                  <button className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white py-4 px-6 rounded-xl font-semibold text-base transition-all shadow-lg hover:shadow-xl transform hover:scale-[1.02] flex items-center justify-center gap-2">
+                    <span>Submit Quote</span>
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
                   </button>
                 </div>
 
-                <div className="space-y-4 mb-6">
-                  <div className="bg-gray-700/50 rounded-lg p-4 border border-gray-600">
-                    <p className="text-sm text-gray-300 mb-1">
-                      {productOption} {promotion} - {category}, Full Colour
-                    </p>
-                    <p className="text-2xl font-bold text-right">
-                      R {getTotalCost().toFixed(2)}
-                    </p>
-                  </div>
-
-                  <div className="border-t border-gray-700 pt-4">
-                    <div className="flex justify-between mb-2">
-                      <span className="text-gray-300">Total Cost</span>
-                      <span className="text-green-400 font-semibold text-lg">
-                        R {getTotalCost().toFixed(2)}
-                      </span>
+                {/* Additional Info Card */}
+                <div className="bg-blue-50 rounded-xl p-4 border border-blue-100">
+                  <div className="flex gap-3">
+                    <div className="flex-shrink-0">
+                      <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-300">Unit Price</span>
-                      <span className="text-green-400 font-semibold">R {unitPrice.toFixed(2)}</span>
+                    <div>
+                      <p className="text-xs font-semibold text-blue-900 mb-1">Need help?</p>
+                      <p className="text-xs text-blue-700">Our team can assist with bulk orders and custom requirements.</p>
                     </div>
                   </div>
                 </div>
-
-                <button className="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-lg font-semibold text-lg transition-all shadow-lg">
-                  Submit
-                </button>
               </div>
             )}
           </div>
