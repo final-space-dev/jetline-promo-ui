@@ -178,85 +178,240 @@ export default function CalculationResult() {
           <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-sm mb-6">
             <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">Imposition Layout</h2>
             <div className="flex justify-center">
-              <svg width="700" height="480" viewBox="0 0 700 480" className="mx-auto">
-                {/* Arrow markers */}
-                <defs>
-                  <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
-                    <polygon points="0 0, 8 4, 0 8" fill="#9ca3af" />
-                  </marker>
-                  <marker id="arrowhead-reverse" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
-                    <polygon points="8 0, 0 4, 8 8" fill="#9ca3af" />
-                  </marker>
-                </defs>
+              <svg width="800" height="520" viewBox="0 0 800 520" className="mx-auto">
+                {(() => {
+                  // IMPOSITION ENGINE - Proper calculation with validation
 
-                {/* A2 Sheet label at top */}
-                <text x="350" y="30" fontSize="18" fill="#475569" textAnchor="middle" fontWeight="700">A2 Sheet (915×640mm)</text>
+                  // Sheet and page dimensions (in mm)
+                  const sheetWidth = 915;   // A2 width
+                  const sheetHeight = 640;  // A2 height
+                  const pageWidth = 210;    // A4 width (portrait)
+                  const pageHeight = 297;   // A4 height (portrait)
+                  const pageCount = 4;      // 2x2 grid
+                  const pagesPerRow = 2;
+                  const pagesPerCol = 2;
 
-                {/*
-                  Imposition calculation:
-                  A2 sheet: 915mm × 640mm
-                  A4 portrait: 210mm × 297mm
-                  2×2 grid: 420mm × 594mm (total content)
-                  Available space: 915-420=495mm width, 640-594=46mm height
-                  Margin per side: width=247.5mm each side, height=23mm each side
+                  // Calculate total content area needed
+                  const totalContentWidth = pageWidth * pagesPerRow;   // 420mm
+                  const totalContentHeight = pageHeight * pagesPerCol;  // 594mm
 
-                  SVG scale: Using 915mm width = 550px, so 1mm ≈ 0.601px
-                  A2 rect: 550px × 384px (640mm)
-                  A4 portrait: 126px × 178px (210×297mm)
-                  Margins: 149px sides (247.5mm), 14px top/bottom (23mm)
-                */}
+                  // Check if content fits on sheet
+                  const fitsWidth = totalContentWidth <= sheetWidth;
+                  const fitsHeight = totalContentHeight <= sheetHeight;
 
-                {/* A2 Sheet (landscape) - outer border with rounded corners */}
-                <rect x="75" y="60" width="550" height="384"
-                      fill="white" stroke="#64748b" strokeWidth="2" rx="10" ry="10" />
+                  if (!fitsWidth || !fitsHeight) {
+                    return <text x="400" y="260" fontSize="16" fill="#ef4444" textAnchor="middle">Error: Content does not fit on sheet!</text>;
+                  }
 
-                {/* Calculate positions for 2×2 grid centered on A2 sheet
-                     A2 left edge: 75
-                     Left margin: 149px (247.5mm)
-                     Page 1&3 left: 75 + 149 = 224
-                     Page 2&4 left: 224 + 126 + 16 = 366 (16px = 27mm gap between pages)
+                  // Calculate available margin space
+                  const availableMarginWidth = sheetWidth - totalContentWidth;   // 495mm
+                  const availableMarginHeight = sheetHeight - totalContentHeight; // 46mm
 
-                     A2 top edge: 60
-                     Top margin: 14px (23mm)
-                     Page 1&2 top: 60 + 14 = 74
-                     Page 3&4 top: 74 + 178 + 16 = 268 (16px = 27mm gap between pages)
-                */}
+                  // Equal margins on all sides
+                  const marginLeft = availableMarginWidth / 2;    // 247.5mm
+                  const marginRight = availableMarginWidth / 2;   // 247.5mm
+                  const marginTop = availableMarginHeight / 2;    // 23mm
+                  const marginBottom = availableMarginHeight / 2; // 23mm
 
-                {/* Page 1 - Top left A4 */}
-                <rect x="224" y="74" width="126" height="178"
-                      fill="#dbeafe" stroke="#3b82f6" strokeWidth="2" rx="6" ry="6" />
-                <text x="287" y="168" fontSize="36" fill="#1e40af" textAnchor="middle" fontWeight="700">1</text>
-                <text x="287" y="190" fontSize="11" fill="#1e40af" textAnchor="middle">210×297mm</text>
+                  // SVG scaling: Let's use 700px for the sheet width
+                  const svgSheetWidth = 700;
+                  const scale = svgSheetWidth / sheetWidth; // px per mm
+                  const svgSheetHeight = sheetHeight * scale;
 
-                {/* Page 2 - Top right A4 */}
-                <rect x="366" y="74" width="126" height="178"
-                      fill="#dbeafe" stroke="#3b82f6" strokeWidth="2" rx="6" ry="6" />
-                <text x="429" y="168" fontSize="36" fill="#1e40af" textAnchor="middle" fontWeight="700">2</text>
-                <text x="429" y="190" fontSize="11" fill="#1e40af" textAnchor="middle">210×297mm</text>
+                  // Convert all measurements to SVG pixels
+                  const svgPageWidth = pageWidth * scale;
+                  const svgPageHeight = pageHeight * scale;
+                  const svgMarginLeft = marginLeft * scale;
+                  const svgMarginTop = marginTop * scale;
 
-                {/* Page 3 - Bottom left A4 */}
-                <rect x="224" y="268" width="126" height="178"
-                      fill="#dbeafe" stroke="#3b82f6" strokeWidth="2" rx="6" ry="6" />
-                <text x="287" y="362" fontSize="36" fill="#1e40af" textAnchor="middle" fontWeight="700">3</text>
-                <text x="287" y="384" fontSize="11" fill="#1e40af" textAnchor="middle">210×297mm</text>
+                  // SVG canvas padding
+                  const canvasPadding = 50;
+                  const sheetX = canvasPadding;
+                  const sheetY = 40;
 
-                {/* Page 4 - Bottom right A4 */}
-                <rect x="366" y="268" width="126" height="178"
-                      fill="#dbeafe" stroke="#3b82f6" strokeWidth="2" rx="6" ry="6" />
-                <text x="429" y="362" fontSize="36" fill="#1e40af" textAnchor="middle" fontWeight="700">4</text>
-                <text x="429" y="384" fontSize="11" fill="#1e40af" textAnchor="middle">210×297mm</text>
+                  // Calculate page positions (inside sheet, with margins)
+                  const page1X = sheetX + svgMarginLeft;
+                  const page1Y = sheetY + svgMarginTop;
 
-                {/* A2 Sheet dimensions at bottom - width */}
-                <line x1="75" y1="460" x2="625" y2="460" stroke="#9ca3af" strokeWidth="1.5" markerEnd="url(#arrowhead)" markerStart="url(#arrowhead-reverse)"/>
-                <text x="350" y="475" fontSize="13" fill="#6b7280" textAnchor="middle" fontWeight="600">915mm</text>
+                  const page2X = page1X + svgPageWidth;
+                  const page2Y = page1Y;
 
-                {/* A2 Sheet dimensions at bottom right - height */}
-                <line x1="645" y1="60" x2="645" y2="444" stroke="#9ca3af" strokeWidth="1.5" markerEnd="url(#arrowhead)" markerStart="url(#arrowhead-reverse)"/>
-                <text x="668" y="257" fontSize="13" fill="#6b7280" textAnchor="middle" fontWeight="600" transform="rotate(90 668 257)">640mm</text>
+                  const page3X = page1X;
+                  const page3Y = page1Y + svgPageHeight;
+
+                  const page4X = page2X;
+                  const page4Y = page3Y;
+
+                  // Validation: Ensure pages don't exceed sheet boundaries
+                  const rightEdge = page2X + svgPageWidth;
+                  const bottomEdge = page3Y + svgPageHeight;
+                  const sheetRight = sheetX + svgSheetWidth;
+                  const sheetBottom = sheetY + svgSheetHeight;
+
+                  const hasOverlap = rightEdge > sheetRight || bottomEdge > sheetBottom;
+
+                  return (
+                    <>
+                      {/* Arrow markers */}
+                      <defs>
+                        <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                          <polygon points="0 0, 8 4, 0 8" fill="#9ca3af" />
+                        </marker>
+                        <marker id="arrowhead-reverse" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                          <polygon points="8 0, 0 4, 8 8" fill="#9ca3af" />
+                        </marker>
+                      </defs>
+
+                      {/* A2 Sheet label at top */}
+                      <text x="400" y="25" fontSize="18" fill="#475569" textAnchor="middle" fontWeight="700">
+                        A2 Sheet ({sheetWidth}×{sheetHeight}mm)
+                      </text>
+
+                      {/* A2 Sheet - outer border with rounded corners */}
+                      <rect
+                        x={sheetX}
+                        y={sheetY}
+                        width={svgSheetWidth}
+                        height={svgSheetHeight}
+                        fill="#fafafa"
+                        stroke="#64748b"
+                        strokeWidth="2"
+                        rx="10"
+                        ry="10"
+                      />
+
+                      {/* Validation error indicator */}
+                      {hasOverlap && (
+                        <text x="400" y={sheetY + svgSheetHeight/2} fontSize="14" fill="#ef4444" textAnchor="middle" fontWeight="700">
+                          ⚠️ OVERLAP DETECTED - FIT ERROR
+                        </text>
+                      )}
+
+                      {/* Page 1 - Top left A4 Portrait */}
+                      <rect
+                        x={page1X}
+                        y={page1Y}
+                        width={svgPageWidth}
+                        height={svgPageHeight}
+                        fill="#dbeafe"
+                        stroke="#3b82f6"
+                        strokeWidth="2"
+                        rx="6"
+                        ry="6"
+                      />
+                      <text x={page1X + svgPageWidth/2} y={page1Y + svgPageHeight/2} fontSize="42" fill="#1e40af" textAnchor="middle" fontWeight="700">1</text>
+                      <text x={page1X + svgPageWidth/2} y={page1Y + svgPageHeight/2 + 28} fontSize="11" fill="#1e40af" textAnchor="middle">{pageWidth}×{pageHeight}mm</text>
+
+                      {/* Page 2 - Top right A4 Portrait */}
+                      <rect
+                        x={page2X}
+                        y={page2Y}
+                        width={svgPageWidth}
+                        height={svgPageHeight}
+                        fill="#dbeafe"
+                        stroke="#3b82f6"
+                        strokeWidth="2"
+                        rx="6"
+                        ry="6"
+                      />
+                      <text x={page2X + svgPageWidth/2} y={page2Y + svgPageHeight/2} fontSize="42" fill="#1e40af" textAnchor="middle" fontWeight="700">2</text>
+                      <text x={page2X + svgPageWidth/2} y={page2Y + svgPageHeight/2 + 28} fontSize="11" fill="#1e40af" textAnchor="middle">{pageWidth}×{pageHeight}mm</text>
+
+                      {/* Page 3 - Bottom left A4 Portrait */}
+                      <rect
+                        x={page3X}
+                        y={page3Y}
+                        width={svgPageWidth}
+                        height={svgPageHeight}
+                        fill="#dbeafe"
+                        stroke="#3b82f6"
+                        strokeWidth="2"
+                        rx="6"
+                        ry="6"
+                      />
+                      <text x={page3X + svgPageWidth/2} y={page3Y + svgPageHeight/2} fontSize="42" fill="#1e40af" textAnchor="middle" fontWeight="700">3</text>
+                      <text x={page3X + svgPageWidth/2} y={page3Y + svgPageHeight/2 + 28} fontSize="11" fill="#1e40af" textAnchor="middle">{pageWidth}×{pageHeight}mm</text>
+
+                      {/* Page 4 - Bottom right A4 Portrait */}
+                      <rect
+                        x={page4X}
+                        y={page4Y}
+                        width={svgPageWidth}
+                        height={svgPageHeight}
+                        fill="#dbeafe"
+                        stroke="#3b82f6"
+                        strokeWidth="2"
+                        rx="6"
+                        ry="6"
+                      />
+                      <text x={page4X + svgPageWidth/2} y={page4Y + svgPageHeight/2} fontSize="42" fill="#1e40af" textAnchor="middle" fontWeight="700">4</text>
+                      <text x={page4X + svgPageWidth/2} y={page4Y + svgPageHeight/2 + 28} fontSize="11" fill="#1e40af" textAnchor="middle">{pageWidth}×{pageHeight}mm</text>
+
+                      {/* Width dimension arrow at bottom */}
+                      <line
+                        x1={sheetX}
+                        y1={sheetY + svgSheetHeight + 25}
+                        x2={sheetX + svgSheetWidth}
+                        y2={sheetY + svgSheetHeight + 25}
+                        stroke="#9ca3af"
+                        strokeWidth="1.5"
+                        markerEnd="url(#arrowhead)"
+                        markerStart="url(#arrowhead-reverse)"
+                      />
+                      <text
+                        x={sheetX + svgSheetWidth/2}
+                        y={sheetY + svgSheetHeight + 42}
+                        fontSize="13"
+                        fill="#6b7280"
+                        textAnchor="middle"
+                        fontWeight="600"
+                      >
+                        {sheetWidth}mm
+                      </text>
+
+                      {/* Height dimension arrow on right */}
+                      <line
+                        x1={sheetX + svgSheetWidth + 20}
+                        y1={sheetY}
+                        x2={sheetX + svgSheetWidth + 20}
+                        y2={sheetY + svgSheetHeight}
+                        stroke="#9ca3af"
+                        strokeWidth="1.5"
+                        markerEnd="url(#arrowhead)"
+                        markerStart="url(#arrowhead-reverse)"
+                      />
+                      <text
+                        x={sheetX + svgSheetWidth + 40}
+                        y={sheetY + svgSheetHeight/2}
+                        fontSize="13"
+                        fill="#6b7280"
+                        textAnchor="middle"
+                        fontWeight="600"
+                        transform={`rotate(90 ${sheetX + svgSheetWidth + 40} ${sheetY + svgSheetHeight/2})`}
+                      >
+                        {sheetHeight}mm
+                      </text>
+
+                      {/* Margin indicators (optional - for debugging) */}
+                      <text x={sheetX + svgMarginLeft/2} y={sheetY + svgSheetHeight/2} fontSize="9" fill="#94a3b8" textAnchor="middle" transform={`rotate(-90 ${sheetX + svgMarginLeft/2} ${sheetY + svgSheetHeight/2})`}>
+                        {marginLeft.toFixed(1)}mm
+                      </text>
+                      <text x={sheetX + svgSheetWidth - svgMarginLeft/2} y={sheetY + svgSheetHeight/2} fontSize="9" fill="#94a3b8" textAnchor="middle" transform={`rotate(90 ${sheetX + svgSheetWidth - svgMarginLeft/2} ${sheetY + svgSheetHeight/2})`}>
+                        {marginRight.toFixed(1)}mm
+                      </text>
+                      <text x={sheetX + svgSheetWidth/2} y={sheetY + svgMarginTop/2 + 3} fontSize="9" fill="#94a3b8" textAnchor="middle">
+                        {marginTop.toFixed(1)}mm
+                      </text>
+                      <text x={sheetX + svgSheetWidth/2} y={sheetY + svgSheetHeight - svgMarginTop/2 + 3} fontSize="9" fill="#94a3b8" textAnchor="middle">
+                        {marginBottom.toFixed(1)}mm
+                      </text>
+                    </>
+                  );
+                })()}
               </svg>
             </div>
             <p className="text-sm text-gray-600 text-center mt-4">
-              4 × A4 Portrait pages centered on A2 Sheet with equal margins
+              4 × A4 Portrait pages (210×297mm) centered on A2 Sheet with equal margins
             </p>
           </div>
         )}
